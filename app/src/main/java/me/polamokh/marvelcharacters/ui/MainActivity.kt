@@ -1,8 +1,11 @@
-package me.polamokh.marvelcharacters
+package me.polamokh.marvelcharacters.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import dagger.hilt.android.AndroidEntryPoint
+import me.polamokh.marvelcharacters.R
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
