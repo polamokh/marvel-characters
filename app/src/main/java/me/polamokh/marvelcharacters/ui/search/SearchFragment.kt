@@ -34,8 +34,9 @@ class SearchFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val charactersAdapter = CharactersAdapter {
-            //TODO: Add link for navigation
-            return@CharactersAdapter
+            findNavController().navigate(
+                SearchFragmentDirections.actionSearchFragmentToDetailsFragment(it)
+            )
         }
         with(binding.charactersRecyclerView) {
             adapter = charactersAdapter

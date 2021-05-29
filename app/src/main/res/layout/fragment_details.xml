@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
     tools:context=".ui.details.DetailsFragment">
@@ -9,11 +10,101 @@
         <variable
             name="character"
             type="me.polamokh.marvelcharacters.model.MarvelCharacter" />
+
+        <variable
+            name="viewModel"
+            type="me.polamokh.marvelcharacters.ui.details.DetailsViewModel" />
     </data>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@{character.description}" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{character.name}"
+                android:textAppearance="?attr/textAppearanceHeadline4"
+                android:textStyle="bold"
+                tools:text="Ultron" />
+
+            <TextView
+                style="@style/DetailsSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description_title"
+                tools:text="Description" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{character.description}"
+                tools:text="Arguably the greatest and certainly the most horrific creation of scientific genius Dr. Henry Pym, Ultron is a criminally insane rogue sentient robot dedicated to conquest and the extermination of humanity." />
+
+            <TextView
+                style="@style/DetailsSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/comics_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/comics_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:submitData="@{viewModel.comics}"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_spotlight" />
+
+            <TextView
+                style="@style/DetailsSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/events_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/events_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:submitData="@{viewModel.events}"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_spotlight" />
+
+            <TextView
+                style="@style/DetailsSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/series_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/series_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:submitData="@{viewModel.series}"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_spotlight" />
+
+            <TextView
+                style="@style/DetailsSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stories_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stories_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:submitData="@{viewModel.stories}"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_spotlight" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </layout>
