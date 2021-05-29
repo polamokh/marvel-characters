@@ -1,5 +1,5 @@
 package me.polamokh.marvelcharacters.network
 
-data class ResponseDTO(
-    val data: DataDTO
+data class ResponseDTO<T>(
+    val data: DataDTO<T>
 )

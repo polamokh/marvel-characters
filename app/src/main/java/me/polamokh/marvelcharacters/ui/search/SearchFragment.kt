@@ -33,7 +33,10 @@ class SearchFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        val charactersAdapter = CharactersAdapter()
+        val charactersAdapter = CharactersAdapter {
+            //TODO: Add link for navigation
+            return@CharactersAdapter
+        }
         with(binding.charactersRecyclerView) {
             adapter = charactersAdapter
         }

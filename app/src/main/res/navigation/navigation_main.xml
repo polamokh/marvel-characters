@@ -13,10 +13,22 @@
         <action
             android:id="@+id/action_charactersFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_charactersFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="me.polamokh.marvelcharacters.ui.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="me.polamokh.marvelcharacters.ui.details.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="marvelCharacter"
+            app:argType="me.polamokh.marvelcharacters.model.MarvelCharacter" />
+    </fragment>
 </navigation>

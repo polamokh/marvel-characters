@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import me.polamokh.marvelcharacters.databinding.ItemCharacterBinding
 import me.polamokh.marvelcharacters.model.MarvelCharacter
 
-class CharactersAdapter :
+class CharactersAdapter(private val block: (marvelCharacter: MarvelCharacter) -> Unit) :
     PagingDataAdapter<MarvelCharacter, CharactersAdapter.CharactersViewHolder>(
         characterDiffUtil
     ) {
@@ -17,6 +17,7 @@ class CharactersAdapter :
         val item = getItem(position)
         if (item != null) {
             holder.bind(item)
+            holder.itemView.setOnClickListener { block(item) }
         }
     }
 

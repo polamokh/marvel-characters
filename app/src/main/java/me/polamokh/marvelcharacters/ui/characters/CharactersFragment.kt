@@ -32,7 +32,11 @@ class CharactersFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        val charactersAdapter = CharactersAdapter()
+        val charactersAdapter = CharactersAdapter {
+            findNavController().navigate(
+                CharactersFragmentDirections.actionCharactersFragmentToDetailsFragment(it)
+            )
+        }
         with(binding.charactersRecyclerView) {
             adapter = charactersAdapter
         }
