@@ -9,7 +9,10 @@ import retrofit2.HttpException
 import java.io.IOException
 import kotlin.math.ceil
 
-class CharactersDataSource(private val marvelService: MarvelService) :
+class CharactersDataSource(
+    private val marvelService: MarvelService,
+    private val query: String? = null
+) :
     PagingSource<Int, MarvelCharacter>() {
 
     private val TAG = "CharactersDataSource"
@@ -18,7 +21,12 @@ class CharactersDataSource(private val marvelService: MarvelService) :
         val pageNumber = params.key ?: 0
 
         return try {
-            val response = marvelService.getCharacters(pageNumber * CHARACTERS_OFFSET)
+            val response =
+                marvelService.getCharacters(
+                    DEFAULT_PAGE_SIZE,
+                    pageNumber * CHARACTERS_OFFSET,
+                    query
+                )
 
             val prevKey = if (pageNumber > 0) pageNumber - 1 else null
 

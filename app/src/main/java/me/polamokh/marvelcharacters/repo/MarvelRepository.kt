@@ -13,4 +13,10 @@ class MarvelRepository @Inject constructor(private val marvelService: MarvelServ
     ) {
         CharactersDataSource(marvelService)
     }.liveData
+
+    fun searchForMarvelCharacters(query: String) = Pager(
+        config = PagingConfig(DEFAULT_PAGE_SIZE, enablePlaceholders = false)
+    ) {
+        CharactersDataSource(marvelService, query)
+    }.liveData
 }

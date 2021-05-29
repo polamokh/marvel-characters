@@ -15,7 +15,11 @@ import java.security.MessageDigest
 interface MarvelService {
 
     @GET("v1/public/characters")
-    suspend fun getCharacters(@Query("offset") offset: Int = 0): ResponseDTO
+    suspend fun getCharacters(
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int = 0,
+        @Query("nameStartsWith") nameStartsWith: String? = null
+    ): ResponseDTO
 
     companion object {
         private const val BASE_URL = "https://gateway.marvel.com/"
