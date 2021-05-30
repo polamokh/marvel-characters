@@ -1,7 +1,9 @@
 package me.polamokh.marvelcharacters.ui.characters
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -21,8 +23,6 @@ class CharactersFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setHasOptionsMenu(true)
-
         binding = FragmentCharactersBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -31,6 +31,15 @@ class CharactersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.lifecycleOwner = this
+
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            if (menuItem.itemId == R.id.action_search) {
+                findNavController().navigate(
+                    CharactersFragmentDirections.actionCharactersFragmentToSearchFragment()
+                )
+            }
+            false
+        }
 
         val charactersAdapter = CharactersAdapter {
             findNavController().navigate(
@@ -44,19 +53,5 @@ class CharactersFragment : Fragment() {
         viewModel.marvelCharacters.observe(viewLifecycleOwner) {
             charactersAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_search, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_search) {
-            findNavController().navigate(
-                CharactersFragmentDirections.actionCharactersFragmentToSearchFragment()
-            )
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 }

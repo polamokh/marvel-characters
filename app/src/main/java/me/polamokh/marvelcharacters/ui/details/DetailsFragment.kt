@@ -8,10 +8,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
+import me.polamokh.marvelcharacters.R
 import me.polamokh.marvelcharacters.adapters.SpotlightsAdapter
 import me.polamokh.marvelcharacters.databinding.FragmentDetailsBinding
 import me.polamokh.marvelcharacters.databinding.UiResultStateBinding
@@ -29,6 +32,26 @@ class DetailsFragment : Fragment() {
 
     private val viewModel: DetailsViewModel by viewModels()
 
+    private var scrollRange = -1
+    private var isShown = true
+
+    private val appBarOffsetChangeListener =
+        AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            if (scrollRange == -1) {
+                scrollRange = appBarLayout.totalScrollRange
+            }
+
+            if (scrollRange + verticalOffset == 0) {
+                binding.toolbar.title = args.marvelCharacter.name
+                binding.toolbar.setNavigationIcon(R.drawable.ic_back)
+                isShown = true
+            } else if (isShown) {
+                binding.toolbar.title = ""
+                binding.toolbar.setNavigationIcon(R.drawable.ic_back_bg)
+                isShown = false
+            }
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,6 +64,12 @@ class DetailsFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.character = args.marvelCharacter
+
+        binding.appBarLayout.addOnOffsetChangedListener(appBarOffsetChangeListener)
+
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
 
         setupSpotlightRecyclerViews(
             binding.comicsRecyclerView,
@@ -55,6 +84,11 @@ class DetailsFragment : Fragment() {
             Pair(viewModel.series, binding.seriesResultState),
             Pair(viewModel.stories, binding.storiesResultState)
         )
+    }
+
+    override fun onDestroyView() {
+        binding.appBarLayout.removeOnOffsetChangedListener(appBarOffsetChangeListener)
+        super.onDestroyView()
     }
 
     private fun setupSpotlightRecyclerViews(vararg recyclerViews: RecyclerView) {

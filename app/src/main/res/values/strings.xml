@@ -8,4 +8,6 @@
     <string name="stories_title">Stories</string>
     <string name="no_available_data">No available data</string>
     <string name="there_is_something_wrong">There is something wrong</string>
+    <string name="search_for_character">Search for a character...</string>
+    <string name="cancel">Cancel</string>
 </resources>

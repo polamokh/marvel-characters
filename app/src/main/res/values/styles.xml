@@ -7,6 +7,14 @@
         <item name="android:textAppearance">?attr/textAppearanceHeadline6</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+
+    <style name="DetailsSpotlight">
+        <item name="android:clipToPadding">false</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
     </style>
 
 </resources>
