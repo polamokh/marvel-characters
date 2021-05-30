@@ -2,13 +2,19 @@ package me.polamokh.marvelcharacters.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import me.polamokh.marvelcharacters.databinding.ItemCharacterBinding
+import me.polamokh.marvelcharacters.databinding.ItemSearchCharacterBinding
 import me.polamokh.marvelcharacters.model.MarvelCharacter
 
-class CharactersAdapter(private val block: (marvelCharacter: MarvelCharacter) -> Unit) :
+class CharactersAdapter(
+    private val itemLayoutId: Int,
+    private val block: (marvelCharacter: MarvelCharacter) -> Unit
+) :
     PagingDataAdapter<MarvelCharacter, CharactersAdapter.CharactersViewHolder>(
         characterDiffUtil
     ) {
@@ -22,21 +28,26 @@ class CharactersAdapter(private val block: (marvelCharacter: MarvelCharacter) ->
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder {
-        return CharactersViewHolder.from(parent)
+        return CharactersViewHolder.from(itemLayoutId, parent)
     }
 
-    class CharactersViewHolder(private val binding: ItemCharacterBinding) :
+    class CharactersViewHolder(private val binding: ViewDataBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: MarvelCharacter) {
-            binding.character = item
+            if (binding is ItemCharacterBinding)
+                binding.character = item
+            else if (binding is ItemSearchCharacterBinding)
+                binding.character = item
+
             binding.executePendingBindings()
         }
 
         companion object {
-            fun from(parent: ViewGroup): CharactersViewHolder {
-                val binding = ItemCharacterBinding.inflate(
+            fun from(itemLayoutId: Int, parent: ViewGroup): CharactersViewHolder {
+                val binding: ViewDataBinding = DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
+                    itemLayoutId,
                     parent,
                     false
                 )

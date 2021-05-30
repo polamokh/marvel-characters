@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import me.polamokh.marvelcharacters.R
 import me.polamokh.marvelcharacters.adapters.CharactersAdapter
 import me.polamokh.marvelcharacters.databinding.FragmentSearchBinding
 
@@ -47,7 +48,7 @@ class SearchFragment : Fragment() {
             }
         })
 
-        val charactersAdapter = CharactersAdapter {
+        val charactersAdapter = CharactersAdapter(R.layout.item_search_character) {
             findNavController().navigate(
                 SearchFragmentDirections.actionSearchFragmentToDetailsFragment(it)
             )

@@ -12,7 +12,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="96dp"
         android:layout_margin="16dp"
         app:cardCornerRadius="22dp">
 
@@ -21,29 +21,28 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/character_image"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="2:1"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@id/character_name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:setImage="@{character.thumbnail.getImageUrl()}"
                 tools:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/character_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="#6F000000"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:layout_marginStart="8dp"
                 android:text="@{character.name}"
-                android:textAlignment="center"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/character_image"
+                app:layout_constraintStart_toEndOf="@id/character_image"
+                app:layout_constraintTop_toTopOf="@id/character_image"
                 tools:text="Spider-Man" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

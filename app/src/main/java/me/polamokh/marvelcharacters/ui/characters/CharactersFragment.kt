@@ -41,7 +41,7 @@ class CharactersFragment : Fragment() {
             false
         }
 
-        val charactersAdapter = CharactersAdapter {
+        val charactersAdapter = CharactersAdapter(R.layout.item_character) {
             findNavController().navigate(
                 CharactersFragmentDirections.actionCharactersFragmentToDetailsFragment(it)
             )
