@@ -53,11 +53,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/comics_title" />
 
+            <include
+                android:id="@+id/comics_result_state"
+                layout="@layout/ui_result_state" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/comics_recycler_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:submitData="@{viewModel.comics}"
+                app:submitData="@{viewModel.comics.dataIfAvailable}"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_spotlight" />
 
@@ -67,11 +71,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/events_title" />
 
+            <include
+                android:id="@+id/events_result_state"
+                layout="@layout/ui_result_state" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/events_recycler_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:submitData="@{viewModel.events}"
+                app:submitData="@{viewModel.events.dataIfAvailable}"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_spotlight" />
 
@@ -81,11 +89,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/series_title" />
 
+            <include
+                android:id="@+id/series_result_state"
+                layout="@layout/ui_result_state" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/series_recycler_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:submitData="@{viewModel.series}"
+                app:submitData="@{viewModel.series.dataIfAvailable}"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_spotlight" />
 
@@ -95,11 +107,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/stories_title" />
 
+            <include
+                android:id="@+id/stories_result_state"
+                layout="@layout/ui_result_state" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/stories_recycler_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:submitData="@{viewModel.stories}"
+                app:submitData="@{viewModel.stories.dataIfAvailable}"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_spotlight" />
 

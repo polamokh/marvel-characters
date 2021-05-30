@@ -1,9 +1,7 @@
 package me.polamokh.marvelcharacters.network
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.coroutines.Deferred
 import me.polamokh.marvelcharacters.BuildConfig
 import me.polamokh.marvelcharacters.model.CharacterSpotlight
 import me.polamokh.marvelcharacters.model.MarvelCharacter
@@ -26,16 +24,16 @@ interface MarvelService {
     ): ResponseDTO<MarvelCharacter>
 
     @GET("v1/public/characters/{characterId}/comics")
-    fun getComics(@Path("characterId") characterId: Int): Deferred<ResponseDTO<CharacterSpotlight>>
+    suspend fun getComics(@Path("characterId") characterId: Int): ResponseDTO<CharacterSpotlight>
 
     @GET("v1/public/characters/{characterId}/events")
-    fun getEvents(@Path("characterId") characterId: Int): Deferred<ResponseDTO<CharacterSpotlight>>
+    suspend fun getEvents(@Path("characterId") characterId: Int): ResponseDTO<CharacterSpotlight>
 
     @GET("v1/public/characters/{characterId}/series")
-    fun getSeries(@Path("characterId") characterId: Int): Deferred<ResponseDTO<CharacterSpotlight>>
+    suspend fun getSeries(@Path("characterId") characterId: Int): ResponseDTO<CharacterSpotlight>
 
     @GET("v1/public/characters/{characterId}/stories")
-    fun getStories(@Path("characterId") characterId: Int): Deferred<ResponseDTO<CharacterSpotlight>>
+    suspend fun getStories(@Path("characterId") characterId: Int): ResponseDTO<CharacterSpotlight>
 
     companion object {
         private const val BASE_URL = "https://gateway.marvel.com/"
@@ -57,7 +55,6 @@ interface MarvelService {
             return Retrofit.Builder()
                 .client(okHttpClient)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .baseUrl(BASE_URL)
                 .build()
                 .create(MarvelService::class.java)

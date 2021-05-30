@@ -6,4 +6,6 @@
     <string name="events_title">Events</string>
     <string name="series_title">Series</string>
     <string name="stories_title">Stories</string>
+    <string name="no_available_data">No available data</string>
+    <string name="there_is_something_wrong">There is something wrong</string>
 </resources>

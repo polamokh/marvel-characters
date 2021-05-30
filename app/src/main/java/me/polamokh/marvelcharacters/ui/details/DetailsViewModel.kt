@@ -1,92 +1,83 @@
 package me.polamokh.marvelcharacters.ui.details
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.liveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import me.polamokh.marvelcharacters.model.CharacterSpotlight
+import me.polamokh.marvelcharacters.model.MarvelCharacter
 import me.polamokh.marvelcharacters.repo.MarvelRepository
+import me.polamokh.marvelcharacters.utils.Result
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailsViewModel @Inject constructor(private val marvelRepository: MarvelRepository) :
+class DetailsViewModel @Inject constructor(
+    private val marvelRepository: MarvelRepository,
+    private val state: SavedStateHandle
+) :
     ViewModel() {
 
-    private val _comics = MutableLiveData<List<CharacterSpotlight>>()
-    val comics: LiveData<List<CharacterSpotlight>>
-        get() = _comics
-
-    private val _events = MutableLiveData<List<CharacterSpotlight>>()
-    val events: LiveData<List<CharacterSpotlight>>
-        get() = _events
-
-    private val _series = MutableLiveData<List<CharacterSpotlight>>()
-    val series: LiveData<List<CharacterSpotlight>>
-        get() = _series
-
-    private val _stories = MutableLiveData<List<CharacterSpotlight>>()
-    val stories: LiveData<List<CharacterSpotlight>>
-        get() = _stories
-
-    fun getCharacterSpotlights(marvelCharacterId: Int) {
-        getCharacterComics(marvelCharacterId)
-
-        getCharacterEvents(marvelCharacterId)
-
-        getCharacterSeries(marvelCharacterId)
-
-        getCharacterStories(marvelCharacterId)
-    }
-
-    private fun getCharacterStories(marvelCharacterId: Int) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val stories = marvelRepository.getMarvelCharacterSpotlights(
-                    marvelCharacterId,
-                    SpotlightType.STORIES
+    val comics = liveData(Dispatchers.IO) {
+        emit(Result.Loading)
+        try {
+            emit(
+                Result.Success(
+                    marvelRepository.getMarvelCharacterSpotlights(
+                        state.get<MarvelCharacter>("marvelCharacter")?.id!!,
+                        SpotlightType.COMICS
+                    )
                 )
-                _stories.postValue(stories)
-            }
+            )
+        } catch (e: Exception) {
+            emit(Result.Error(e))
         }
     }
 
-    private fun getCharacterSeries(marvelCharacterId: Int) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val series = marvelRepository.getMarvelCharacterSpotlights(
-                    marvelCharacterId,
-                    SpotlightType.SERIES
+    val events = liveData(Dispatchers.IO) {
+        emit(Result.Loading)
+        try {
+            emit(
+                Result.Success(
+                    marvelRepository.getMarvelCharacterSpotlights(
+                        state.get<MarvelCharacter>("marvelCharacter")?.id!!,
+                        SpotlightType.EVENTS
+                    )
                 )
-                _series.postValue(series)
-            }
+            )
+        } catch (e: Exception) {
+            emit(Result.Error(e))
         }
     }
 
-    private fun getCharacterEvents(marvelCharacterId: Int) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val events = marvelRepository.getMarvelCharacterSpotlights(
-                    marvelCharacterId,
-                    SpotlightType.EVENTS
+    val series = liveData(Dispatchers.IO) {
+        emit(Result.Loading)
+        try {
+            emit(
+                Result.Success(
+                    marvelRepository.getMarvelCharacterSpotlights(
+                        state.get<MarvelCharacter>("marvelCharacter")?.id!!,
+                        SpotlightType.SERIES
+                    )
                 )
-                _events.postValue(events)
-            }
+            )
+        } catch (e: Exception) {
+            emit(Result.Error(e))
         }
     }
 
-    private fun getCharacterComics(marvelCharacterId: Int) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val comics = marvelRepository.getMarvelCharacterSpotlights(
-                    marvelCharacterId,
-                    SpotlightType.COMICS
+    val stories = liveData(Dispatchers.IO) {
+        emit(Result.Loading)
+        try {
+            emit(
+                Result.Success(
+                    marvelRepository.getMarvelCharacterSpotlights(
+                        state.get<MarvelCharacter>("marvelCharacter")?.id!!,
+                        SpotlightType.STORIES
+                    )
                 )
-                _comics.postValue(comics)
-            }
+            )
+        } catch (e: Exception) {
+            emit(Result.Error(e))
         }
     }
 }

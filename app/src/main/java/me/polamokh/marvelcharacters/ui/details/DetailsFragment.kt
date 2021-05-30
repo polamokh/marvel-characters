@@ -4,13 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import me.polamokh.marvelcharacters.adapters.SpotlightsAdapter
 import me.polamokh.marvelcharacters.databinding.FragmentDetailsBinding
+import me.polamokh.marvelcharacters.databinding.UiResultStateBinding
+import me.polamokh.marvelcharacters.model.CharacterSpotlight
+import me.polamokh.marvelcharacters.utils.Result
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
@@ -32,37 +38,51 @@ class DetailsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val marvelCharacter = args.marvelCharacter
-
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.character = marvelCharacter
+        binding.character = args.marvelCharacter
 
-        if (savedInstanceState == null)
-            viewModel.getCharacterSpotlights(marvelCharacter.id)
+        setupSpotlightRecyclerViews(
+            binding.comicsRecyclerView,
+            binding.eventsRecyclerView,
+            binding.seriesRecyclerView,
+            binding.storiesRecyclerView
+        )
 
-        with(binding.comicsRecyclerView) {
-            adapter = SpotlightsAdapter()
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        observeSpotlightStates(
+            Pair(viewModel.comics, binding.comicsResultState),
+            Pair(viewModel.events, binding.eventsResultState),
+            Pair(viewModel.series, binding.seriesResultState),
+            Pair(viewModel.stories, binding.storiesResultState)
+        )
+    }
+
+    private fun setupSpotlightRecyclerViews(vararg recyclerViews: RecyclerView) {
+        recyclerViews.forEach {
+            with(it) {
+                adapter = SpotlightsAdapter()
+                layoutManager =
+                    LinearLayoutManager(
+                        requireContext(),
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+            }
         }
+    }
 
-        with(binding.eventsRecyclerView) {
-            adapter = SpotlightsAdapter()
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        }
+    private fun observeSpotlightStates(
+        vararg spotlights: Pair<LiveData<Result<List<CharacterSpotlight>>>, UiResultStateBinding>
+    ) {
+        spotlights.forEach { entry ->
+            entry.first.observe(viewLifecycleOwner) {
+                val resultStateBinding = entry.second
 
-        with(binding.seriesRecyclerView) {
-            adapter = SpotlightsAdapter()
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        }
-
-        with(binding.storiesRecyclerView) {
-            adapter = SpotlightsAdapter()
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                resultStateBinding.loadingState.isVisible = it is Result.Loading
+                resultStateBinding.successEmptyState.isVisible =
+                    it is Result.Success && it.data.isEmpty()
+                resultStateBinding.errorState.isVisible = it is Result.Error
+            }
         }
     }
 }
