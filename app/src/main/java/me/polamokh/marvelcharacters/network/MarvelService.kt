@@ -36,15 +36,29 @@ interface MarvelService {
     suspend fun getStories(@Path("characterId") characterId: Int): ResponseDTO<CharacterSpotlight>
 
     companion object {
+        /**
+         * Marvel API base URL.
+         */
         private const val BASE_URL = "https://gateway.marvel.com/"
 
+        /**
+         * Query keys that appended to request URL.
+         */
         private const val TIMESTAMP_QUERY_KEY = "ts"
         private const val API_KEY_QUERY_KEY = "apikey"
         private const val HASH_QUERY_KEY = "hash"
 
+        /**
+         * Marvel API public and private keys.
+         * They are secured in properties of gradle file.
+         */
         private const val MARVEL_API_KEY = BuildConfig.MARVEL_API_KEY
         private const val MARVEL_PRIVATE_API_KEY = BuildConfig.MARVEL_PRIVATE_API_KEY
 
+        /**
+         * Initiate Retrofit with our service [MarvelService] to request JSON data.
+         * [Moshi] to parse JSON objects to Kotlin classes.
+         */
         fun create(): MarvelService {
             val moshi = Moshi.Builder()
                 .addLast(KotlinJsonAdapterFactory())
@@ -60,6 +74,11 @@ interface MarvelService {
                 .create(MarvelService::class.java)
         }
 
+        /**
+         * Called to intercept request URL to append the required query parameters.
+         *
+         * @return [OkHttpClient].
+         */
         private fun createOkHttpClient(): OkHttpClient {
             return OkHttpClient.Builder()
                 .addInterceptor { chain ->
@@ -82,6 +101,13 @@ interface MarvelService {
                 .build()
         }
 
+        /**
+         * Generate a hash value of the input message.
+         *
+         * @param input input message to be hashed.
+         *
+         * @return [String] hash value.
+         */
         private fun createHash(input: String): String {
             val md5 = MessageDigest.getInstance("MD5")
             return BigInteger(1, md5.digest(input.toByteArray()))

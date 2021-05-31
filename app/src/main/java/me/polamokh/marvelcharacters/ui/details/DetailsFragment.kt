@@ -22,9 +22,7 @@ import me.polamokh.marvelcharacters.model.CharacterSpotlight
 import me.polamokh.marvelcharacters.utils.Result
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment() {
-
-    private val TAG = "DetailsFragment"
+class DetailsFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
 
     private lateinit var binding: FragmentDetailsBinding
 
@@ -32,25 +30,15 @@ class DetailsFragment : Fragment() {
 
     private val viewModel: DetailsViewModel by viewModels()
 
+    /**
+     * The current scroll range in toolbar to scroll.
+     */
     private var scrollRange = -1
+
+    /**
+     * The current visibility of toolbar title.
+     */
     private var isShown = true
-
-    private val appBarOffsetChangeListener =
-        AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-            if (scrollRange == -1) {
-                scrollRange = appBarLayout.totalScrollRange
-            }
-
-            if (scrollRange + verticalOffset == 0) {
-                binding.toolbar.title = args.marvelCharacter.name
-                binding.toolbar.setNavigationIcon(R.drawable.ic_back)
-                isShown = true
-            } else if (isShown) {
-                binding.toolbar.title = ""
-                binding.toolbar.setNavigationIcon(R.drawable.ic_back_bg)
-                isShown = false
-            }
-        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,11 +53,9 @@ class DetailsFragment : Fragment() {
         binding.viewModel = viewModel
         binding.character = args.marvelCharacter
 
-        binding.appBarLayout.addOnOffsetChangedListener(appBarOffsetChangeListener)
+        binding.appBarLayout.addOnOffsetChangedListener(this)
 
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().navigateUp()
-        }
+        binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
         setupSpotlightRecyclerViews(
             binding.comicsRecyclerView,
@@ -87,7 +73,7 @@ class DetailsFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        binding.appBarLayout.removeOnOffsetChangedListener(appBarOffsetChangeListener)
+        binding.appBarLayout.removeOnOffsetChangedListener(this)
         super.onDestroyView()
     }
 
@@ -117,6 +103,22 @@ class DetailsFragment : Fragment() {
                     it is Result.Success && it.data.isEmpty()
                 resultStateBinding.errorState.isVisible = it is Result.Error
             }
+        }
+    }
+
+    override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
+        if (scrollRange == -1) {
+            scrollRange = appBarLayout.totalScrollRange
+        }
+
+        if (scrollRange + verticalOffset == 0) {
+            binding.toolbar.title = args.marvelCharacter.name
+            binding.toolbar.setNavigationIcon(R.drawable.ic_back)
+            isShown = true
+        } else if (isShown) {
+            binding.toolbar.title = ""
+            binding.toolbar.setNavigationIcon(R.drawable.ic_back_bg)
+            isShown = false
         }
     }
 }

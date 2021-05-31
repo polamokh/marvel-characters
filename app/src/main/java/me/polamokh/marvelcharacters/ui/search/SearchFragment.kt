@@ -14,7 +14,7 @@ import me.polamokh.marvelcharacters.adapters.CharactersAdapter
 import me.polamokh.marvelcharacters.databinding.FragmentSearchBinding
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: FragmentSearchBinding
 
@@ -33,26 +33,20 @@ class SearchFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        binding.cancelSearch.setOnClickListener {
-            findNavController().navigateUp()
-        }
+        binding.cancelSearch.setOnClickListener { findNavController().navigateUp() }
 
-        binding.characterSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
+        binding.characterSearchView.setOnQueryTextListener(this)
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.searchForCharacters(newText)
-                return true
-            }
-        })
+        setupSearchCharactersRecyclerView()
+    }
 
+    private fun setupSearchCharactersRecyclerView() {
         val charactersAdapter = CharactersAdapter(R.layout.item_search_character) {
             findNavController().navigate(
                 SearchFragmentDirections.actionSearchFragmentToDetailsFragment(it)
             )
         }
+
         with(binding.charactersRecyclerView) {
             adapter = charactersAdapter
         }
@@ -60,5 +54,14 @@ class SearchFragment : Fragment() {
         viewModel.marvelCharacters.observe(viewLifecycleOwner) {
             charactersAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        viewModel.searchForCharacters(newText)
+        return true
     }
 }

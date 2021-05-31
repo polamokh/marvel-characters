@@ -2,8 +2,10 @@ package me.polamokh.marvelcharacters.ui.characters
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,7 +15,7 @@ import me.polamokh.marvelcharacters.adapters.CharactersAdapter
 import me.polamokh.marvelcharacters.databinding.FragmentCharactersBinding
 
 @AndroidEntryPoint
-class CharactersFragment : Fragment() {
+class CharactersFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
     private lateinit var binding: FragmentCharactersBinding
 
@@ -32,20 +34,18 @@ class CharactersFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            if (menuItem.itemId == R.id.action_search) {
-                findNavController().navigate(
-                    CharactersFragmentDirections.actionCharactersFragmentToSearchFragment()
-                )
-            }
-            false
-        }
+        binding.toolbar.setOnMenuItemClickListener(this)
 
+        setupCharactersRecyclerView()
+    }
+
+    private fun setupCharactersRecyclerView() {
         val charactersAdapter = CharactersAdapter(R.layout.item_character) {
             findNavController().navigate(
                 CharactersFragmentDirections.actionCharactersFragmentToDetailsFragment(it)
             )
         }
+
         with(binding.charactersRecyclerView) {
             adapter = charactersAdapter
         }
@@ -53,5 +53,14 @@ class CharactersFragment : Fragment() {
         viewModel.marvelCharacters.observe(viewLifecycleOwner) {
             charactersAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.action_search) {
+            findNavController().navigate(
+                CharactersFragmentDirections.actionCharactersFragmentToSearchFragment()
+            )
+        }
+        return false
     }
 }
