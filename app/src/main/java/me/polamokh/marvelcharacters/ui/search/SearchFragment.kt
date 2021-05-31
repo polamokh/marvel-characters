@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import me.polamokh.marvelcharacters.R
 import me.polamokh.marvelcharacters.adapters.CharactersAdapter
+import me.polamokh.marvelcharacters.adapters.PagingLoadStateAdapter
 import me.polamokh.marvelcharacters.databinding.FragmentSearchBinding
 
 @AndroidEntryPoint
@@ -48,11 +49,14 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         }
 
         with(binding.charactersRecyclerView) {
-            adapter = charactersAdapter
+            adapter = charactersAdapter.withLoadStateHeaderAndFooter(
+                PagingLoadStateAdapter { charactersAdapter.retry() },
+                PagingLoadStateAdapter { charactersAdapter.retry() }
+            )
         }
 
         viewModel.marvelCharacters.observe(viewLifecycleOwner) {
-            charactersAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+            charactersAdapter.submitData(lifecycle, it)
         }
     }
 

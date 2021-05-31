@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import me.polamokh.marvelcharacters.R
 import me.polamokh.marvelcharacters.adapters.CharactersAdapter
+import me.polamokh.marvelcharacters.adapters.PagingLoadStateAdapter
 import me.polamokh.marvelcharacters.databinding.FragmentCharactersBinding
 
 @AndroidEntryPoint
@@ -47,11 +48,14 @@ class CharactersFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         }
 
         with(binding.charactersRecyclerView) {
-            adapter = charactersAdapter
+            adapter = charactersAdapter.withLoadStateHeaderAndFooter(
+                PagingLoadStateAdapter { charactersAdapter.retry() },
+                PagingLoadStateAdapter { charactersAdapter.retry() }
+            )
         }
 
         viewModel.marvelCharacters.observe(viewLifecycleOwner) {
-            charactersAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+            charactersAdapter.submitData(lifecycle, it)
         }
     }
 
