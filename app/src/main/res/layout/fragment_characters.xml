@@ -10,7 +10,9 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/toolbar_bg"
+            app:elevation="0dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
@@ -19,14 +21,15 @@
                 android:layout_marginEnd="16dp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="234dp"
+                    android:layout_height="88dp"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/marvel_logo" />
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/marvel_logo"
+                    app:tint="?attr/colorPrimaryVariant" />
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
-                    style="@style/Widget.MaterialComponents.Toolbar.Primary"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="center_vertical"

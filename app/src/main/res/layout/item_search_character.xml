@@ -36,7 +36,7 @@
                 android:id="@+id/character_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:text="@{character.name}"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="@color/white"

@@ -11,7 +11,7 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/marvel_logo" />
+            android:src="@drawable/marvel_splash_logo" />
     </item>
 
 </layer-list>
