@@ -24,6 +24,7 @@
                     android:layout_width="234dp"
                     android:layout_height="88dp"
                     android:layout_gravity="center"
+                    android:contentDescription="@string/marvel_logo"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/marvel_logo"
                     app:tint="?attr/colorPrimaryVariant" />

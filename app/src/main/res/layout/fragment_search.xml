@@ -25,8 +25,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:queryBackground="@drawable/searchview_bg"
                     app:iconifiedByDefault="false"
+                    app:queryBackground="@drawable/search_view_bg"
                     app:queryHint="@string/search_for_character"
                     app:searchIcon="@drawable/ic_magnifying_glass" />
 
@@ -45,6 +45,9 @@
             android:id="@+id/characters_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:itemCount="10"
