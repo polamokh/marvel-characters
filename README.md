@@ -2,7 +2,6 @@
 Android app that displays a list of marvel characters and the details of each character: comics, events, series, and stories. Also you can search for your favourite character.
 
 ## Structure
-------------
 The app is implemented based on MVVM design pattern.
 
 ***Models*** represented as data classes that provide the needed data to be displayed in the views from network.
@@ -12,7 +11,6 @@ The app is implemented based on MVVM design pattern.
 ***Views*** the app UI that contains main activity and three fragments: characters, search, and details. Each one is responsible for dispaly it's data.
 
 ## Dependencies
----------------
 - Android archituecture components:
   - Paging
   - ViewModel
@@ -24,7 +22,6 @@ The app is implemented based on MVVM design pattern.
 - [Glide](https://github.com/bumptech/glide)
 
 ## Screenshoots
----------------
 <p align="center">
     <img src="screenshots\splash_home.gif" width="200">
     <img src="screenshots\search.gif" width="200">
