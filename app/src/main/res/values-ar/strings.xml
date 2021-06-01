@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Marvel Characters</string>
+    <string name="search_title">بحث</string>
+    <string name="description_title">وصف</string>
+    <string name="comics_title">كاريكاتير</string>
+    <string name="events_title">أحداث</string>
+    <string name="series_title">مسلسلات</string>
+    <string name="stories_title">قصص</string>
+    <string name="no_available_data">لا يوجد بيانات</string>
+    <string name="there_is_something_wrong">هناك شيء ما خاطئ</string>
+    <string name="search_for_character">أبحث عن شخصية…</string>
+    <string name="cancel">الغاء</string>
+    <string name="marvel_logo">علامة مارفل</string>
+    <string name="retry">حاول مجددا</string>
+</resources>
