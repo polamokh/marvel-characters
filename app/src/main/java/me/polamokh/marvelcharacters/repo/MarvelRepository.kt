@@ -19,7 +19,7 @@ class MarvelRepository @Inject constructor(private val marvelService: MarvelServ
         config = PagingConfig(DEFAULT_PAGE_SIZE, enablePlaceholders = false)
     ) {
         CharactersDataSource(marvelService, query)
-    }.liveData
+    }.flow
 
     suspend fun getMarvelCharacterSpotlights(
         marvelCharacterId: Int,

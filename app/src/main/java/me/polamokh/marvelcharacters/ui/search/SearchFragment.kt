@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import me.polamokh.marvelcharacters.R
 import me.polamokh.marvelcharacters.adapters.CharactersAdapter
 import me.polamokh.marvelcharacters.adapters.PagingLoadStateAdapter
@@ -29,6 +31,8 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         return binding.root
     }
 
+    @FlowPreview
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -41,6 +45,8 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener {
         setupSearchCharactersRecyclerView()
     }
 
+    @FlowPreview
+    @ExperimentalCoroutinesApi
     private fun setupSearchCharactersRecyclerView() {
         val charactersAdapter = CharactersAdapter(R.layout.item_search_character) {
             findNavController().navigate(
